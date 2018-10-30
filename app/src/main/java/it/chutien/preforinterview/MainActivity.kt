@@ -1,12 +1,20 @@
 package it.chutien.preforinterview
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import it.chutien.preforinterview.Factory.Decorator.Computer
 import it.chutien.preforinterview.Factory.Decorator.Disk
 import it.chutien.preforinterview.Factory.GoF.Connection
 import it.chutien.preforinterview.Factory.GoF.SecureFactory
+import it.chutien.preforinterview.Observer.Database
+import it.chutien.preforinterview.Observer.Archiver
+import it.chutien.preforinterview.Observer.Boss
+import it.chutien.preforinterview.Observer.Client
+import it.chutien.preforinterview.Strategy.Car
+import it.chutien.preforinterview.Strategy.GoByDrivingAlgorithm
+import it.chutien.preforinterview.Strategy.GoByFlyingAlgorithm
+import it.chutien.preforinterview.Strategy.Jet
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,16 +25,38 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "onCreate")
         setContentView(R.layout.activity_main)
 
+
+        //decorator pattern
         var computer = Computer()
         computer = Disk(computer)
-        Log.d(TAG, "You get a " + computer.description())
+        Log.d("Decorator", "You get a " + computer.description())
 
 
+        //factory pattern
         var secureFactory = SecureFactory()
-
         var connection: Connection = secureFactory.createConnection("Oracle")
+        Log.d("Factory", "You're connect with " + connection.description())
 
-        Log.d(TAG, "You're connect with " + connection.description())
+
+        //strategy pattern
+        var car = Car()
+        var jet = Jet()
+        car.go()
+        car.setGoAlgorithm(GoByFlyingAlgorithm())
+        jet.setGoAlgorithm(GoByDrivingAlgorithm())
+        jet.go()
+
+        //observer pattern
+        var database = Database()
+        var archiver = Archiver()
+        var client = Client()
+        var boss = Boss()
+
+        database.addObserver(archiver)
+        database.addObserver(client)
+        database.addObserver(boss)
+        database.deleteObserver(client)//remove observer of client
+        database.editRecord("update", "table 99")
 
 
     }

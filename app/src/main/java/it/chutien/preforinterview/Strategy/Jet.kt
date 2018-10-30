@@ -1,8 +1,8 @@
 package it.chutien.preforinterview.Strategy
 
-open class Car : Vehice() {
+class Jet : Vehice() {
 
     init {
-        setGoAlgorithm(GoByDrivingAlgorithm())
+        setGoAlgorithm(GoByFlyingAlgorithm())
     }
 }
